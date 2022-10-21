@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+ 
+<html lang="en">
+ 
+<head>
+ 
+    <meta charset="UTF-8">
+ 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 
+    <title>Document</title>
+ 
+    <style>
+ 
+        html,body{
+ 
+            height:100%;
+ 
+            width:100%;
+ 
+            overflow: hidden;
+ 
+        }
+ 
+        li{
+ 
+            display: inline-block;
+ 
+        }
+ 
+        img{
+ 
+            height:200px;
+ 
+            width:200px;
+ 
+        }
+ 
+        .cart{
+ 
+            position: absolute;
+ 
+            right:0px;
+ 
+            bottom:0px;
+ 
+        }
+ 
+        .animate{
+ 
+            position: absolute;
+ 
+            width:200px;
+ 
+            height:200px;
+ 
+            transition: 1s linear;
+ 
+        }
+ 
+    </style>
+ 
+</head>
+ 
+<body>
+ 
+    <div id="app">
+ 
+        <div v-for="(p,index) in products" ref="lists">
+ 
+            <img :src="p"/>
+ 
+            <button @click="addCart(index)">添加购物车</button>
+ 
+        </div>
+ 
+        <transition @enter="enter" @after-enter="afterEnter">
+ 
+            <div class="animate" v-if="isShow"></div>
+ 
+        </transition>
+ 
+        <div class="cart" style="background:red;width:50px;height:50px" ref="cart"></div>
+ 
+    </div>
+ 
+    <script src="../../node_modules/vue/dist/vue.js"></script>
+ 
+    <script>
+ 
+        let vm=new Vue({
+ 
+            el:'#app',
+ 
+            data(){
+ 
+                return{
+ 
+                    isShow:false, //默认控制动画的属性
+ 
+                    currentIndex:-1, //我当前点击的是谁
+ 
+                    products:[
+ 
+                        'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2312261118,3383206621&fm=26&gp=0.jpg',
+ 
+                        'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2488102644,4095521058&fm=26&gp=0.jpg'
+ 
+                    ]
+ 
+                }
+ 
+            },
+ 
+            methods:{
+ 
+                addCart(index){
+ 
+                    this.isShow=true;
+ 
+                    this.currentIndex=index;
+ 
+                },
+ 
+                afterEnter(el,){
+ 
+                    this.isShow=false;
+ 
+                },
+ 
+                enter(el,done){ //让当前这个div 获取到当前这个div 在那点击的是那一个。
+ 
+                    let div=this.$refs.lists[this.currentIndex];
+ 
+                    let {x,y}=div.getBoundingClientRect();
+ 
+                    el.style.left=x+'px';
+ 
+                    el.style.top=y+'px';
+ 
+                    el.style.background=`url(${this.products[this.currentIndex]})`;
+ 
+                    el.style.backgroundSize="100% 100%";
+ 
+                    //done();
+ 
+ 
+ 
+                    let {x:cartX,y:cartY}=this.$refs.cart.getBoundingClientRect();
+ 
+                    el.style.transform=`translate3d(${cartX-x}px,${cartY-y}px,0) scale(0,0)`;
+ 
+                    el.addEventListener('transitionend',done);
+ 
+                }
+ 
+            }
+ 
+        })
+ 
+    </script>
+ 
+</body>
+ 
+</html>

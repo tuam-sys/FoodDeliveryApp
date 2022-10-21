@@ -1,0 +1,17 @@
+{
+    "code": 200,
+    "list": [
+        {
+            "imgSrc": "https://timgsa.baidu.com/timg?C2880.jpg%3Fmode%3Ddownload",
+            "name": "老弄堂1",
+            "term": "起送￥15 免配送费"
+        },
+        {
+            "imgSrc": "https://timgsa.baidu.com/timg?2C2880.jpg%3Fmode%3Ddownload",
+            "name": "老弄堂2",
+            "term": "起送￥15 免配送费"
+        }
+    ],
+    "msg": "success",
+    "status": true
+}
