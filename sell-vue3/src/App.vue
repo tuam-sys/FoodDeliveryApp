@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="content">
-      <router-view></router-view>
+      <router-view :seller="seller"></router-view>
     </div>
   </div>
 </template>
@@ -38,7 +38,7 @@
       getSeller(){
         this.$http.get('/api/data.json').then((res) => {
           // axios.get('http://localhost:8080/mock/data.json').then((res) => {
-          console.log(res)
+          // console.log(res)
           if(res.status === 200) {
             this.seller = res.data.seller
           }
